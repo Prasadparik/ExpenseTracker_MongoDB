@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body class="bg-body-tertiary">
+    <!-- login form ------------------------------------------------- -->
+    <div class="container py-5" style="max-width: 380px">
+      <form
+        id="login-form"
+        method="POST"
+        class="card p-3 shadow-sm p-3 mb-5 rounded"
+      >
+        <h2 class="p-2 text-center pb-3 text-uppercase">Log In</h2>
+
+        <!-- Toast -------------------- -->
+        <div id="message-box"></div>
+        <!-- ======================== -->
+
+        <hr />
+
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label"
+            >Email address</label
+          >
+          <input
+            id="userEmail"
+            type="email"
+            class="form-control"
+            aria-describedby="emailHelp"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Password</label>
+          <input
+            id="userPassword"
+            type="password"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="d-flex justify-content-end">
+          <button
+            id="forgotPassoword"
+            class="btn btn-default mt-0 p-0 mb-3 text-dark-subtle fw-medium"
+          >
+            Forgot Password ?
+          </button>
+        </div>
+
+        <button type="submit" class="btn btn-dark mt-3 text-uppercase">
+          Log in
+        </button>
+        <button class="btn btn-default mt-2 text-dark-subtle">
+          <a href="../signup/signup.html"> Don't have an account Sign In?</a>
+        </button>
+      </form>
+    </div>
+
+    <!-- =============================================================================================== -->
+
+    <!-- signup form ------------------------------------------------- -->
+    <div class="container py-5" style="max-width: 380px">
+      <form
+        id="resetPassword-form"
+        method="POST"
+        class="card p-3 shadow-sm p-3 mb-5 rounded"
+        style="display: none"
+      >
+        <h2 class="p-2 text-center pb-3 text-uppercase">Reset Password</h2>
+
+        <!-- Toast -------------------- -->
+        <div id="reset-message-box"></div>
+        <!-- ======================== -->
+
+        <hr />
+
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label"
+            >Email address</label
+          >
+          <input
+            id="resetEmail"
+            type="email"
+            class="form-control"
+            name="resetEmail"
+            required
+          />
+        </div>
+
+        <button type="submit" class="btn w-100 btn-dark mt-3 text-uppercase">
+          Reset Password
+        </button>
+      </form>
+    </div>
+    <!-- SCRIPT ------------------------------------------------------------------------------ -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./login.js"></script>
+  </body>
+</html>

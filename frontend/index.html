@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expense Tracker</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <style>
+    .proBtn {
+      border-radius: 9px 0px;
+      box-sizing: border-box;
+      color: #ffffff;
+      cursor: pointer;
+      font-family: Inter, Helvetica, "Apple Color Emoji", "Segoe UI Emoji",
+        NotoColorEmoji, "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji",
+        EmojiSymbols, -apple-system, system-ui, "Segoe UI", Roboto,
+        "Helvetica Neue", "Noto Sans", sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 24px;
+      opacity: 1;
+      outline: 0 solid transparent;
+      padding: 8px 18px;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      width: fit-content;
+      word-break: break-word;
+      border: 0;
+    }
+
+    /* CSS */
+    .buyProBtn {
+      padding: 0.6em 2em;
+      border: none;
+      outline: none;
+      color: rgb(255, 255, 255);
+      background: #111;
+      cursor: pointer;
+      position: relative;
+      z-index: 0;
+      border-radius: 10px;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+
+    .buyProBtn:before {
+      content: "";
+      background: linear-gradient(
+        45deg,
+        #ff0000,
+        #ff7300,
+        #fffb00,
+        #48ff00,
+        #00ffd5,
+        #002bff,
+        #7a00ff,
+        #ff00c8,
+        #ff0000
+      );
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      background-size: 400%;
+      z-index: -1;
+      filter: blur(5px);
+      -webkit-filter: blur(5px);
+      width: calc(100% + 4px);
+      height: calc(100% + 4px);
+      animation: glowing-button-85 20s linear infinite;
+      transition: opacity 0.3s ease-in-out;
+      border-radius: 10px;
+    }
+
+    @keyframes glowing-button-85 {
+      0% {
+        background-position: 0 0;
+      }
+      50% {
+        background-position: 400% 0;
+      }
+      100% {
+        background-position: 0 0;
+      }
+    }
+
+    .buyProBtn:after {
+      z-index: -1;
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #222;
+      left: 0;
+      top: 0;
+      border-radius: 10px;
+    }
+  </style>
+  <body class="bg-body-tertiary">
+    <!-- Navbar --------------------------------------- -->
+    <nav class="navbar navbar-expand-lg bg-white text-white shadow-sm">
+      <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="#"
+          ><div>
+            <b style="letter-spacing: 0.3rem">ExpenseTracker</b>
+            <p
+              id="premiumMessage"
+              class="proBtn text-dark px-5 py-0"
+              style="
+                display: none;
+                background: #ffd621;
+                box-shadow: #b78f2d 0 6px 10px -10px;
+                font-size: x-small;
+                font-style: italic;
+                letter-spacing: 0.5rem;
+              "
+            >
+              ⭐ PRO
+            </p>
+          </div>
+        </a>
+
+        <div class="navbar" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+          <ul class="navbar-nav mb-2 mb-lg-0">
+            <!-- <li class="nav-item">
+              <a class="nav-link text-white" href="./pages/login.html"
+                ><button class="btn btn-dark text-white" type="submit">
+                  Leaderboard
+                </button></a
+              >
+            </li> -->
+            <li class="nav-item">
+              <a class="nav-link text-white" href="./login/login.html"
+                ><button
+                  class="btn bg-danger-subtle text-danger fw-medium"
+                  type="submit"
+                >
+                  Log Out
+                </button></a
+              >
+            </li>
+          </ul>
+          <div id="buyBtnWrapper">
+            <button
+              id="rzp-button1"
+              style="display: none"
+              class="buyProBtn"
+              type="submit"
+            >
+              Buy Premium
+            </button>
+          </div>
+
+          <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        </div>
+      </div>
+    </nav>
+
+    <!-- main -------------------------------------------------------- -->
+
+    <div class="conatainer p-1 p-md-5">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="card p-3">
+            <form id="addExpenseFrom" action="" class="form">
+              <h5 id="displayUserName"></h5>
+              <h3>Add Expense</h3>
+              <label class="form-label mt-4" for="name">Amount:</label>
+              <input
+                id="amount"
+                class="form-control p-2"
+                type="number"
+                name="name"
+              />
+              <label class="form-label mt-4" for="email">Categoris:</label>
+              <select id="category" class="form-select p-2">
+                <option selected value="Electronics">Electronics</option>
+                <option value="Food">Food</option>
+                <option value="Skin Care">Skin Care</option>
+              </select>
+
+              <label class="form-label mt-4" for="email">Description</label>
+              <input
+                id="description"
+                class="form-control"
+                type="text"
+                name="description"
+              />
+              <input
+                type="submit"
+                class="btn bg-dark text-white mt-3 w-100 fw-semibold p-3"
+                value="SUBMIT"
+              />
+            </form>
+          </div>
+        </div>
+
+        <!-- ============================================================ -->
+
+        <div class="col-md-9">
+          <div class="filterWrapper bg-dark p-2 d-flex">
+            <h5
+              id="filterHeading"
+              class="text-white flex-grow-1 align-items-center p-2"
+            >
+              Expenses
+            </h5>
+
+            <div class="dropdown pt-1">
+              <button
+                class="btn bg-warning-subtle px-4 dropdown-toggle fw-medium"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                id="filterName"
+              >
+                Filter
+              </button>
+              <ul class="dropdown-menu">
+                <li id="allFilter">
+                  <a class="dropdown-item" href="#">All</a>
+                </li>
+                <li id="dailyFilter">
+                  <a class="dropdown-item" href="#">Daily</a>
+                </li>
+                <li id="monthlyFilter">
+                  <a class="dropdown-item" href="#">Monthly</a>
+                </li>
+                <li id="yearlyFilter">
+                  <a class="dropdown-item" href="#">Yearly</a>
+                </li>
+              </ul>
+
+              <!-- Row Number --------------------------- -->
+              <button
+                class="btn bg-white px-4 dropdown-toggle fw-medium"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                id="rowNumber"
+              >
+                Rows
+              </button>
+              <ul class="dropdown-menu">
+                <li id="row1">
+                  <a class="dropdown-item" href="#">5</a>
+                </li>
+                <li id="row2">
+                  <a class="dropdown-item" href="#">10</a>
+                </li>
+                <li id="row3">
+                  <a class="dropdown-item" href="#">15</a>
+                </li>
+              </ul>
+              <!-- EndRow Number --------------------------- -->
+            </div>
+            <button
+              id="download"
+              class="btn bg-success-subtle ms-4 fw-bold px-4 mt-1 text-success"
+              type="button"
+              style="max-height: 2.3rem"
+            >
+              Download
+            </button>
+          </div>
+          <table class="table">
+            <thead class="shadow-sm rounded">
+              <tr>
+                <th class="p-3 bg-dark-subtle mt-3 text-dark" scope="col">
+                  Amount
+                </th>
+                <th class="p-3 bg-dark-subtle mt-3 text-dark" scope="col">
+                  Description
+                </th>
+                <th class="p-3 bg-dark-subtle mt-3 text-dark" scope="col">
+                  Category
+                </th>
+                <th class="p-3 bg-dark-subtle mt-3 text-dark" scope="col">
+                  Edit
+                </th>
+                <th class="p-3 bg-dark-subtle mt-3 text-dark" scope="col">
+                  Delete
+                </th>
+              </tr>
+            </thead>
+            <tbody id="expenseTable">
+              <!-- <tr>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdosfvnkejvkje vkj</td>
+                <td><button class="btn btn-outline-dark">Edit</button></td>
+                <td><button class="btn btn-outline-danger">Delete</button></td>
+              </tr> -->
+            </tbody>
+          </table>
+
+          <!-- pagination -->
+          <div
+            id="pagination"
+            class="d-flex justify-content-center bg-white rounded shadow-sm"
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <!--  Leader board and Download Histoy -->
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <!-- Download History Board ================================================= -->
+
+          <div class="my-5">
+            <ul id="DownloadList" style="" class="list-group">
+              <div class="p-4 shadow-sm fw-bold bg-dark text-white">
+                Download History
+              </div>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <!-- Leader Board ================================================= -->
+
+          <div class="my-5">
+            <ul id="LeaderboardList" style="display: none" class="list-group">
+              <div class="p-4 shadow-sm fw-bold bg-dark text-white">
+                Leaderboard
+              </div>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- footer-------------------------------------------- -->
+    <div class="text-center bg-dark text-white py-5">
+      <div class="card-body">
+        <div class="card-footer text-white">
+          <b class="title">Expense Tracker</b>
+          Made With ❤
+        </div>
+      </div>
+    </div>
+
+    <!-- -------------------------------------------------------------------- -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./js/leaderboard.js"></script>
+    <script src="./js/downloadHistory.js"></script>
+    <script src="./js/expense.js"></script>
+  </body>
+</html>
